@@ -1,0 +1,129 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 20-nov-2017, 13:12:32
+    Author     : rojo5
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+/*    font-family: sans-serif;*/
+    font-family: 'Indie Flower', cursive;
+  background: url('../imagenes/tatooine.jpg') center center  no-repeat fixed;
+    background-size: cover;
+    overflow-y: hidden; 
+}
+
+
+
+h1{
+    color: #fff;
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    margin-bottom: 50px;
+}
+
+.formulario{
+    width: 95%;
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    border-radius: 7px;
+}
+
+.form-titulo{
+    background: #17C827;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-weight: 100;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 2px;
+    border-bottom: 5px solid black;
+}
+
+
+.form-campos{
+    padding:  10px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.altura{
+    height: 49px !important;
+}
+
+input{
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 3px;
+    border:1px solid gray;
+    font-family: 'Indie Flower', cursive;
+}
+
+select{
+    border-radius: 3px;
+    border:1px solid gray;
+}
+
+.form-input{
+    width: 48%;
+}
+
+.form-input-largo{
+    width: 100%;
+}
+
+.form-button{
+    text-decoration: none;
+    padding: 10px 40px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #ffffff;
+    background: #17C827;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 25%;
+
+}
+
+.form-button:hover{
+    color: #ffffff;
+    background: #26A814;
+}
+
+.form-button:active{
+    transform: scale(1.05);
+}
+.estrellita{
+    width: 100%;
+    margin: 7px;
+    margin-left: 5px;
+    text-align: center;
+    font-size: 14px;
+}
+select{
+     font-family: 'Indie Flower', cursive;
+}
+footer{
+    background: #747474;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    color: white;
+}
+
+footer >p {
+    padding: 1px;
+}
