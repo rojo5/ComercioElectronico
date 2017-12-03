@@ -23,7 +23,7 @@ if ($result->num_rows > 0) { }
 
 $row = $result->fetch_array(MYSQLI_ASSOC);
  if ($password === $row['password']) { 
-     header('Location: productos.php');
+     header('Location: inicio.php');
  } else{
      
      print_r($row['password']);

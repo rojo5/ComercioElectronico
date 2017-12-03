@@ -18,21 +18,36 @@ and open the template in the editor.
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
-        <title>Productos</title>
+        <title>Inicio</title>
     </head>
     <body>
+        <?php
+        define('DB_HOST', 'localhost');
+        define('DB_DATABASE', 'usuarios');
+        define('DB_USER', 'root');
+        define('DB_PASS', '');
+
+
+        $conex = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+
+//$sql ="SELECT cod_producto, precio, nombre, descripcion, stock, categoria FROM productos";
+        $sql = "SELECT * FROM productos";
+
+        $resultado = mysqli_query($conex, $sql);
+
+        $productos = mysqli_fetch_all($resultado);
+        ?>
         <header>
             <div class="menu_bar">
                 <a href="#" class="btn-menu"><span class="icon-menu"></span>Menu</a>
             </div>
             <nav>
-
                 <ul class="derecha">
                     <li><a href="#"><span class="icon-home"></span>Incio</a></li>
                     <li class="submenu">
                         <a href="#"><span class="icon-cart"></span>Tienda</a>
                         <ul class="hijo">
-                            <li><a href="#">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
+                            <li><a href="imperio.php">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
                             <li><a href="#">Rebelión<span class=" swg swg-reball swg-2x"></span></a></li>
                             <li><a href="#">República <span class=" swg swg-galrep swg-2x"></span></a></li>
                             <li><a href="#">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
@@ -61,7 +76,6 @@ and open the template in the editor.
                 <script>
                     var myIndex = 0;
                     carousel();
-
                     function carousel() {
                         var i;
                         var x = document.getElementsByClassName("mySlides");
@@ -82,35 +96,41 @@ and open the template in the editor.
                 <div class="row fondoBlanco">
                     <h2>Ultimos añadidos</h2>
                     <!--PRODUCTOS-->
+                    <?php
+                    for ($i = 0; $i < count($productos); $i++) {
+                        $codigo = $productos[$i][0];
+                        $precio = $productos[$i][1];
+                        $nombre = $productos[$i][2];
+                        $descripcion = $productos[$i][3];
+                        $imagen = $productos[$i][6];
+                        PRINT <<<HERE
                     <div class="col-sm-3">
                         <article class="col-item">
+                            <input type="hidden" value="$codigo">
                             <div class="photo">
                                 <div class="options-cart-round">
                                     <button class="btn btn-default" title="Add to cart">
                                         <span class="fa fa-shopping-cart"></span>
                                     </button>
                                 </div>
-                                <a href="#"> <img src="https://www.thewrap.com/wp-content/uploads/2017/08/last-jedi-porg.jpg" class="img-responsive" alt="Product Image" /> </a>
+                                <a href="#"> <img src="imagenes/$imagen" class="img-responsive" alt="$nombre" /> </a>
                             </div>
                             <div class="info">
                                 <div class="row">
                                     <div class="price-details col-md-6">
-                                        <p class="details">
-                                            Lorem ipsum dolor sit amet, consectetur..
-                                        </p>
-                                        <h1>Sample Product</h1>
-                                        <span class="price-new">110.00<i class="swg swg-credits"></i></span>
+                                        <p class="details">$descripcion</p>
+                                        <h1>$nombre</h1>
+                                        <span class="price-new">$precio<i class="swg swg-credits"></i></span>
                                     </div>
                                 </div>
                             </div>
                         </article>
                     </div>
-                    
+HERE;
+                    }
+                    ?>
                 </div>
             </div>
         </div>
-
-
-
     </body>
 </html>
