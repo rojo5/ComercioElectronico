@@ -31,7 +31,7 @@ and open the template in the editor.
         $conex = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
 
 //$sql ="SELECT cod_producto, precio, nombre, descripcion, stock, categoria FROM productos";
-        $sql = "SELECT * FROM productos where categoria = 'rebeldes'";
+        $sql = "SELECT * FROM productos where categoria = 'rebelde'";
 
         $resultado = mysqli_query($conex, $sql);
 
@@ -89,7 +89,7 @@ and open the template in the editor.
                                         <span class="fa fa-shopping-cart"></span>
                                     </button>
                                 </div>
-                                <a href="#"> <img src="imagenes/$imagen" class="img-responsive" alt="$nombre" /> </a>
+                                <a href="producto.php?codigo=$codigo&precio=$precio&nombre=$nombre&descripcion=$descripcion&imagen=$imagen"> <img src="imagenes/$imagen" class="img-responsive" alt="$nombre" /> </a>
                             </div>
                             <div class="info">
                                 <div class="row">
