@@ -53,7 +53,7 @@ and open the template in the editor.
                             <li><a href="#">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><span class="icon-user"></span>Mi cuenta</a></li>
+                    <li><a href="carrito.php"><span class="icon-user"></span>Mi cuenta</a></li>
                     <li><a href="cerrarSesion.php"><span class="icon-exit"></span>Cerrar sesión</a></li>
                 </ul>
             </nav>
