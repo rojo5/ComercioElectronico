@@ -1,9 +1,9 @@
+<?php
+session_start();
+include './configuracionInicial.php';
+$id_user = $_GET['id'];
+?>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -22,18 +22,18 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        define('DB_HOST', 'localhost');
-        define('DB_DATABASE', 'usuarios');
-        define('DB_USER', 'root');
-        define('DB_PASS', '');
-
-
-        $conex = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
-
+//        define('DB_HOST', 'localhost');
+//        define('DB_DATABASE', 'usuarios');
+//        define('DB_USER', 'root');
+//        define('DB_PASS', '');
+//
+//
+//        $conex = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
 //$sql ="SELECT cod_producto, precio, nombre, descripcion, stock, categoria FROM productos";
         $sql = "SELECT * FROM productos";
 
-        $resultado = mysqli_query($conex, $sql);
+//        $resultado = mysqli_query($conex, $sql);
+        $resultado = $mysqli_conn->query($sql);
 
         $productos = mysqli_fetch_all($resultado);
         ?>
@@ -43,17 +43,17 @@ and open the template in the editor.
             </div>
             <nav>
                 <ul class="derecha">
-                    <li><a href="#"><span class="icon-home"></span>Incio</a></li>
+                    <li><a href="inicio.php?id=<?php echo $id_user;?>"><span class="icon-home"></span>Incio</a></li>
                     <li class="submenu">
-                        <a href="#"><span class="icon-cart"></span>Tienda</a>
+                        <a href="tienda.php?id=<?php echo $id_user;?>"><span class="icon-cart"></span>Tienda</a>
                         <ul class="hijo">
-                            <li><a href="imperio.php">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
-                            <li><a href="#">Rebelión<span class=" swg swg-reball swg-2x"></span></a></li>
-                            <li><a href="#">República <span class=" swg swg-galrep swg-2x"></span></a></li>
-                            <li><a href="#">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
+                            <li><a href="imperio.php?id=<?php echo $id_user;?>">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
+                            <li><a href="rebelion.php?id=<?php echo $id_user;?>">Rebelión<span class=" swg swg-reball swg-2x"></span></a></li>
+                            <li><a href="republica.php?id=<?php echo $id_user;?>">República <span class=" swg swg-galrep swg-2x"></span></a></li>
+                            <li><a href="separatistas.php?id=<?php echo $id_user;?>">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
                         </ul>
                     </li>
-                    <li><a href="carrito.php"><span class="icon-user"></span>Mi cuenta</a></li>
+                    <li><a href="carrito.php?id=<?php echo $id_user;?>"><span class="icon-user"></span>Mi cuenta</a></li>
                     <li><a href="cerrarSesion.php"><span class="icon-exit"></span>Cerrar sesión</a></li>
                 </ul>
             </nav>
@@ -84,7 +84,7 @@ and open the template in the editor.
                         }
                         myIndex++;
                         if (myIndex > x.length) {
-                            myIndex = 1
+                            myIndex = 1;
                         }
                         x[myIndex - 1].style.display = "block";
                         setTimeout(carousel, 2000); // Change image every 2 seconds
@@ -106,14 +106,13 @@ and open the template in the editor.
                         PRINT <<<HERE
                     <div class="col-sm-3">
                         <article class="col-item">
-                            <input type="hidden" value="$codigo">
                             <div class="photo">
                                 <div class="options-cart-round">
-                                    <button class="btn btn-default" title="Add to cart">
+                                    <button class="btn btn-default" title="Añadir al carro" onclick="anadir($codigo);">
                                         <span class="fa fa-shopping-cart"></span>
                                     </button>
                                 </div>
-                                <a href="producto.php?codigo=$codigo&precio=$precio&nombre=$nombre&descripcion=$descripcion&imagen=$imagen""> <img src="imagenes/$imagen" class="img-responsive" alt="$nombre" /> </a>
+                                <a href="producto.php?id=$id_user&codigo=$codigo&precio=$precio&nombre=$nombre&descripcion=$descripcion&imagen=$imagen"> <img src="imagenes/$imagen" class="img-responsive" alt="$nombre" /> </a>
                             </div>
                             <div class="info">
                                 <div class="row">
@@ -132,5 +131,28 @@ HERE;
                 </div>
             </div>
         </div>
+        
+        <script>
+            
+            function anadir(idProducto){
+                var usuario = <?php echo $id_user; ?>;
+                var codProducto = idProducto;
+                console.log("usuario " + usuario + " produc" + codProducto);
+                var parametro ={
+                    "usuario" : usuario,
+                    "idProducto" : codProducto  
+                };
+                
+                $.ajax({
+                    data: parametro,
+                    url: "anadirVenta.php",
+                    method: "POST",
+                    success: function (response){
+                        alert("Producto añadido");
+                    }
+                });
+            }
+            
+        </script>
     </body>
 </html>

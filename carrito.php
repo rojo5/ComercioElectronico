@@ -1,9 +1,9 @@
+<?php
+session_start();
+include './configuracionInicial.php';
+$id_user = $_GET['id'];
+?>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -23,18 +23,18 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        define('DB_HOST', 'localhost');
-        define('DB_DATABASE', 'usuarios');
-        define('DB_USER', 'root');
-        define('DB_PASS', '');
-
-
-        $conex = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+//        define('DB_HOST', 'localhost');
+//        define('DB_DATABASE', 'usuarios');
+//        define('DB_USER', 'root');
+//        define('DB_PASS', '');
+//
+//
+//        $conex = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
 
 //$sql ="SELECT cod_producto, precio, nombre, descripcion, stock, categoria FROM productos";
-        $sql = "SELECT * FROM productos";
+        $sql = "SELECT * FROM productos WHERE  productos.cod_producto IN (SELECT venta.producto FROM venta WHERE venta.usuario = '$id_user')";
 
-        $resultado = mysqli_query($conex, $sql);
+              $resultado = $mysqli_conn->query($sql);
 
         $productos = mysqli_fetch_all($resultado);
         ?>
@@ -44,17 +44,17 @@ and open the template in the editor.
             </div>
             <nav>
                 <ul class="derecha">
-                    <li><a href="inicio.php"><span class="icon-home"></span>Incio</a></li>
+                    <li><a href="inicio.php?id=<?php echo $id_user;?>"><span class="icon-home"></span>Incio</a></li>
                     <li class="submenu">
-                        <a href="tienda.php"><span class="icon-cart"></span>Tienda</a>
+                        <a href="tienda.php?id=<?php echo $id_user;?>"><span class="icon-cart"></span>Tienda</a>
                         <ul class="hijo">
-                            <li><a href="imperio.php">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
-                            <li><a href="rebelion.php">Rebelión<span class=" swg swg-reball swg-2x"></span></a></li>
-                            <li><a href="republica.php">República <span class=" swg swg-galrep swg-2x"></span></a></li>
-                            <li><a href="separatistas.php">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
+                            <li><a href="imperio.php?id=<?php echo $id_user;?>">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
+                            <li><a href="rebelion.php?id=<?php echo $id_user;?>">Rebelión<span class=" swg swg-reball swg-2x"></span></a></li>
+                            <li><a href="republica.php?id=<?php echo $id_user;?>">República <span class=" swg swg-galrep swg-2x"></span></a></li>
+                            <li><a href="separatistas.php?id=<?php echo $id_user;?>">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><span class="icon-user"></span>Mi cuenta</a></li>
+                    <li><a href="carrito.php?id=<?php echo $id_user;?>"><span class="icon-user"></span>Mi cuenta</a></li>
                     <li><a href="cerrarSesion.php"><span class="icon-exit"></span>Cerrar sesión</a></li>
                 </ul>
             </nav>
@@ -83,58 +83,46 @@ and open the template in the editor.
                             <label class="product-removal">Eliminar</label>
                             <label class="product-line-price">Total</label>
                         </div>
-
+                        
+                        <?php
+                        for ($i = 0; $i < count($productos); $i++) {
+                        $codigo = $productos[$i][0];
+                        $precio = $productos[$i][1];
+                        $nombre = $productos[$i][2];
+                        $descripcion = $productos[$i][3];
+                        $imagen = $productos[$i][6];
+                        PRINT <<<HERE
                         <div class="product">
                             <div class="product-image">
-                                <img src="https://www.thewrap.com/wp-content/uploads/2017/08/last-jedi-porg.jpg">
+                                <img src="imagenes/$imagen">
                             </div>
                             <div class="product-details">
-                                <div class="product-title">Dingo Dog Bones</div>
-                                <p class="product-description">The best dog bones of all time. Holy crap. Your dog will 
-                                    be begging for these things! I got curious once and ate one myself. I'm a fan.</p>
+                                <div class="product-title">$nombre</div>
+                                <p class="product-description">$descripcion</p>
                             </div>
-                            <div class="product-price">12.99</div>
+                            <div class="product-price">$precio</div>
                             <div class="product-quantity">
-                                <input type="number" value="2" min="1">
+                                <input type="number" value="1" min="1">
                             </div>
                             <div class="product-removal">
-                                <button class="remove-product btn btn-danger">
-                                    Eliminar
-                                </button>
+                                <button class="remove-product btn btn-danger" onclick="borrar($codigo)">Eliminar</button>
                             </div>
-                            <div class="product-line-price">25.98</div>
+                            <div class="product-line-price">$precio</div>
                         </div>
-
-                        <div class="product">
-                            <div class="product-image">
-                                <img src="https://cdn1.thr.com/sites/default/files/imagecache/scale_crop_768_433/2017/10/screen_shot_2017-10-31_at_11.32.11_am_3_-_h_2017.jpg">
-                            </div>
-                            <div class="product-details">
-                                <div class="product-title">Nutro™ Adult Lamb and Rice Dog Food</div>
-                                <p class="product-description">Who doesn't like lamb and rice? We've all hit the 
-                                    halal cart at 3am while quasi-blackout after a night of binge drinking in Manhattan. 
-                                    Now it's your dog's turn!.</p>
-                            </div>
-                            <div class="product-price">45.99</div>
-                            <div class="product-quantity">
-                                <input type="number" value="2" min="1">
-                            </div>
-                            <div class="product-removal">
-                                <button class="remove-product btn btn-danger">
-                                    Eliminar
-                                </button>
-                            </div>
-                            <div class="product-line-price">45.99</div>
-                        </div>
+                        
+HERE;
+                        
+                        }
+                        ?>
 
                         <div class="totals">
                             <div class="totals-item">
                                 <label>Subtotal</label>
-                                <div class="totals-value" id="cart-subtotal">71.97</div>
+                                <div class="totals-value" id="cart-subtotal">0</div>
                             </div>
                             <div class="totals-item">
                                 <label>IVA (5%)</label>
-                                <div class="totals-value" id="cart-tax">3.60</div>
+                                <div class="totals-value" id="cart-tax">0</div>
                             </div>
                             <div class="totals-item">
                                 <label>Envio</label>
@@ -142,7 +130,7 @@ and open the template in the editor.
                             </div>
                             <div class="totals-item totals-item-total">
                                 <label>Total</label>
-                                <div class="totals-value" id="cart-total">90.57</div>
+                                <div class="totals-value" id="cart-total">0</div>
                             </div>
                         </div>
                         <button class="checkout btn btn-success">Comprar</button>
@@ -151,5 +139,29 @@ and open the template in the editor.
             </div>
         </div>
         <script src="js/carrito.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function (){
+               recalculateCart(); 
+            });
+            
+            function borrar(idProducto){
+                var usuario = <?php echo $id_user; ?>;
+                var codProducto = idProducto;
+                console.log("usuario " + usuario + " produc" + codProducto);
+                var parametro ={
+                    "usuario" : usuario,
+                    "idProducto" : codProducto  
+                };
+                
+                $.ajax({
+                    data: parametro,
+                    url: "borrarVenta.php",
+                    method: "POST",
+                    success: function (response){
+                        console.log("Producto eliminado");
+                    }
+                });
+            }            
+        </script>
     </body>
 </html>
