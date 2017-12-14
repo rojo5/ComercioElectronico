@@ -18,7 +18,7 @@ and open the template in the editor.
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
-        <script src="js/carrito.js" type="text/javascript"></script>
+        
         <title>Tienda</title>
     </head>
     <body>
@@ -150,5 +150,6 @@ and open the template in the editor.
                 </div>     
             </div>
         </div>
+        <script src="js/carrito.js" type="text/javascript"></script>
     </body>
 </html>
