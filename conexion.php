@@ -27,12 +27,5 @@ $row = $result->fetch_array(MYSQLI_ASSOC);
      header('Location: inicio.php?id='.$id);
  } else{
      
-     print_r($row['password']);
-     
-     
-     echo "<br>";
-     
-     echo "Username o Password estan incorrectos.";
-
-   echo "<br><a href='index.html'>Volver a Intentarlo</a>";
+ header('Location: index.html');
  }

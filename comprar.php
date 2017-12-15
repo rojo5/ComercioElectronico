@@ -62,14 +62,14 @@ print_r($comprados);
 
 $sql3 = "DELETE FROM venta WHERE usuario = $id_usuario ";
 
-    $resultado3 = mysqli_query($conexion, $sql3);
+$resultado3 = mysqli_query($conexion, $sql3);
 
-    if (!$resultado3) {
-        die();
-    }
+if (!$resultado3) {
+    die();
+}
 
 
 desconectar($conexion);
 
-header('Location: realizado.php?id='.$id_usuario);
+header('Location: realizado.php?id=' . $id_usuario);
 

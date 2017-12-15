@@ -50,7 +50,7 @@ $id_user = $_GET['id'];
                     <h1>Lista de la compra</h1>
                 </div>
                 <div class="col-xs-3">
-                    
+
                 </div>
             </div>
             <br>
@@ -59,7 +59,7 @@ $id_user = $_GET['id'];
                     <h1></h1>
                     <br><br>
                     <div class="text-center">
-                    
+
                         <h1> <i class="swg swg-porg-1 swg-3x"></i>COMPRA REALIZADA <i class="swg swg-porg-1 swg-3x"></i></h1>
                         <br>
                         <br>

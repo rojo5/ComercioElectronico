@@ -23,7 +23,6 @@ $id_user = $_GET['id'];
     </head>
     <body>
         <?php
-
         $sql = "SELECT * FROM productos WHERE  productos.cod_producto IN (SELECT venta.producto FROM venta WHERE venta.usuario = '$id_user')";
 
         $resultado = $mysqli_conn->query($sql);
@@ -129,7 +128,7 @@ HERE;
                             <input type="hidden" name="usuario" value="<?php echo $id_user; ?>">
                             <input type="submit" class="checkout btn btn-success" value="Comprar">
                         </form>
-                        
+
                     </div>
                 </div>     
             </div>
@@ -159,14 +158,14 @@ HERE;
                 });
             }
             var cantidad;
-            
+
             //NO FUNCIONA
             function actualizar(producActualiza) {
                 var usuario = <?php echo $id_user; ?>;
-                cantidad=$("#c"+producActualiza).val();
+                cantidad = $("#c" + producActualiza).val();
                 cantidad = parseInt(cantidad);
                 console.log(cantidad + " / " + producActualiza);
-              var parametro = {
+                var parametro = {
                     "usuario": usuario,
                     "producActualiza": producActualiza,
                     "cantidad": cantidad
@@ -182,7 +181,7 @@ HERE;
                     }
                 });
             }
-           
+
 
         </script>
     </body>

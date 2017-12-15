@@ -1,7 +1,9 @@
 <?php
+
 $id_usuario = $_POST['usuario'];
 $id_producto = $_POST['idProducto'];
 $cantidad_producto = $_REQUEST['cantidad'];
+
 //$id_usuario = $_GET['usuario'];
 //$id_producto = $_GET['idProducto'];
 //$cantidad_producto = $_GET['cantidad'];
@@ -37,11 +39,10 @@ function desconectar($conexion) {
     }
 }
 
-
 $conexion = conectar();
 $cantidad_producto = (int) $cantidad_producto;
 $sql = "UPDATE venta SET cantidad = $cantidad_producto WHERE usuario = $id_usuario AND producto = $id_producto";
-      //UPDATE productos SET stock = stock - $cantidad  WHERE  cod_producto = $id
+//UPDATE productos SET stock = stock - $cantidad  WHERE  cod_producto = $id
 
 mysqli_set_charset($conexion, "utf8");
 

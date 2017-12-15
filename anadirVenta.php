@@ -2,6 +2,7 @@
 
 $id_usuario = $_POST['usuario'];
 $id_producto = $_POST['idProducto'];
+
 //$id_usuario = 1;
 //$id_producto = 1;
 
@@ -53,12 +54,12 @@ if (mysqli_num_rows($resultado) > 0) {
 } else {
     echo '<br>';
     echo 'LLego aqui';
-    
+
     $anadir = "INSERT INTO venta (usuario, producto) VALUES ('$id_usuario', '$id_producto')";
 
     $resultado = mysqli_query($conexion, $anadir);
     echo '<br>';
-print_r($resultado);
+    print_r($resultado);
 
     if (!$resultado) {
         die();

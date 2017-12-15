@@ -1,6 +1,8 @@
 <?php
+
 $id_usuario = $_POST['usuario'];
 $id_producto = $_POST['idProducto'];
+
 //$id_usuario = 1;
 //$id_producto = 1;
 

@@ -4,6 +4,7 @@ $usuario = $_POST['rUsuario'];
 $mail = $_POST['rMail'];
 $passwd = $_POST['rPass'];
 $passwd2 = $_POST['rPass2'];
+
 //$usuario = 'pepe';
 //$mail = 'pepe@pepe.es';
 //$passwd = '123';
@@ -38,30 +39,28 @@ function desconectar($conexion) {
     }
 }
 
+//Conexion a la BBDD 
+$conexion = conectar();
 
+//Consulta
+mysqli_set_charset($conexion, "utf8");
+$compruebaUser = "SELECT * FROM usuarios WHERE nombre ='$usuario'";
+print_r($compruebaUser);
+$resultado = mysqli_query($conexion, $compruebaUser);
 
-    //Conexion a la BBDD 
-    $conexion = conectar();
+$existe = mysqli_num_rows($resultado);
 
-    //Consulta
-    mysqli_set_charset($conexion, "utf8");
-    $compruebaUser = "SELECT * FROM usuarios WHERE nombre ='$usuario'";
-    print_r($compruebaUser);
-    $resultado = mysqli_query($conexion, $compruebaUser);
+if ($existe == 1) {
+    header('Location: registro.php?existe=true');
+    return;
+} else if ($passwd != $passwd2) {
+    header('Location: registro.php?passIncorrecta=true');
+}
+$insertar = "INSERT INTO usuarios (nombre, correo, password) VALUES ( '$usuario', '$mail', '$passwd')";
 
-    $existe = mysqli_num_rows($resultado);
-    
-    if ($existe == 1) {
-        header('Location: registro.php?existe=true');
-        return;
-    } else if ($passwd != $passwd2) {
-        header('Location: registro.php?passIncorrecta=true');
-    }
-        $insertar ="INSERT INTO usuarios (nombre, correo, password) VALUES ( '$usuario', '$mail', '$passwd')";
-    
-        if($resultado = mysqli_query($conexion,$insertar)){
-            header('Location: index.html?registro=true');
-        }
-        desconectar($conexion);
+if ($resultado = mysqli_query($conexion, $insertar)) {
+    header('Location: index.html?registro=true');
+}
+desconectar($conexion);
 
 
