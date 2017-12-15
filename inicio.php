@@ -53,7 +53,7 @@ $id_user = $_GET['id'];
                             <li><a href="separatistas.php?id=<?php echo $id_user;?>">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
                         </ul>
                     </li>
-                    <li><a href="carrito.php?id=<?php echo $id_user;?>"><span class="icon-user"></span>Mi cuenta</a></li>
+                    <li><a href="carrito.php?id=<?php echo $id_user;?>"><span class="icon-user"></span>Mi carrito</a></li>
                     <li><a href="cerrarSesion.php"><span class="icon-exit"></span>Cerrar sesión</a></li>
                 </ul>
             </nav>
@@ -64,7 +64,6 @@ $id_user = $_GET['id'];
                     <h1>Inicio</h1>
                 </div>
                 <div class="col-xs-3">
-                    <i class="swg swg-porg-1 swg-3x"></i>
                 </div>
             </div>
             <div class="row">
@@ -97,7 +96,7 @@ $id_user = $_GET['id'];
                     <h2>Ultimos añadidos</h2>
                     <!--PRODUCTOS-->
                     <?php
-                    for ($i = 0; $i < count($productos); $i++) {
+                    for ($i = 0; $i < 4; $i++) {
                         $codigo = $productos[$i][0];
                         $precio = $productos[$i][1];
                         $nombre = $productos[$i][2];

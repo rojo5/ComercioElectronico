@@ -18,23 +18,15 @@ $id_user = $_GET['id'];
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
-        
+
         <title>Tienda</title>
     </head>
     <body>
         <?php
-//        define('DB_HOST', 'localhost');
-//        define('DB_DATABASE', 'usuarios');
-//        define('DB_USER', 'root');
-//        define('DB_PASS', '');
-//
-//
-//        $conex = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
 
-//$sql ="SELECT cod_producto, precio, nombre, descripcion, stock, categoria FROM productos";
         $sql = "SELECT * FROM productos WHERE  productos.cod_producto IN (SELECT venta.producto FROM venta WHERE venta.usuario = '$id_user')";
 
-              $resultado = $mysqli_conn->query($sql);
+        $resultado = $mysqli_conn->query($sql);
 
         $productos = mysqli_fetch_all($resultado);
         ?>
@@ -44,17 +36,17 @@ $id_user = $_GET['id'];
             </div>
             <nav>
                 <ul class="derecha">
-                    <li><a href="inicio.php?id=<?php echo $id_user;?>"><span class="icon-home"></span>Incio</a></li>
+                    <li><a href="inicio.php?id=<?php echo $id_user; ?>"><span class="icon-home"></span>Incio</a></li>
                     <li class="submenu">
-                        <a href="tienda.php?id=<?php echo $id_user;?>"><span class="icon-cart"></span>Tienda</a>
+                        <a href="tienda.php?id=<?php echo $id_user; ?>"><span class="icon-cart"></span>Tienda</a>
                         <ul class="hijo">
-                            <li><a href="imperio.php?id=<?php echo $id_user;?>">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
-                            <li><a href="rebelion.php?id=<?php echo $id_user;?>">Rebelión<span class=" swg swg-reball swg-2x"></span></a></li>
-                            <li><a href="republica.php?id=<?php echo $id_user;?>">República <span class=" swg swg-galrep swg-2x"></span></a></li>
-                            <li><a href="separatistas.php?id=<?php echo $id_user;?>">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
+                            <li><a href="imperio.php?id=<?php echo $id_user; ?>">Imperio<span class="swg swg-galemp swg-2x"></span></a></li>
+                            <li><a href="rebelion.php?id=<?php echo $id_user; ?>">Rebelión<span class=" swg swg-reball swg-2x"></span></a></li>
+                            <li><a href="republica.php?id=<?php echo $id_user; ?>">República <span class=" swg swg-galrep swg-2x"></span></a></li>
+                            <li><a href="separatistas.php?id=<?php echo $id_user; ?>">Separatistas<span class=" swg swg-separ swg-2x"></span></a></li>
                         </ul>
                     </li>
-                    <li><a href="carrito.php?id=<?php echo $id_user;?>"><span class="icon-user"></span>Mi cuenta</a></li>
+                    <li><a href="carrito.php?id=<?php echo $id_user; ?>"><span class="icon-user"></span>Mi carrito</a></li>
                     <li><a href="cerrarSesion.php"><span class="icon-exit"></span>Cerrar sesión</a></li>
                 </ul>
             </nav>
@@ -66,7 +58,7 @@ $id_user = $_GET['id'];
                     <h1>Lista de la compra</h1>
                 </div>
                 <div class="col-xs-3">
-                    <i class="swg swg-porg-1 swg-3x"></i>
+
                 </div>
             </div>
             <br>
@@ -83,15 +75,16 @@ $id_user = $_GET['id'];
                             <label class="product-removal">Eliminar</label>
                             <label class="product-line-price">Total</label>
                         </div>
-                        
+
                         <?php
+                        $total = count($productos);
                         for ($i = 0; $i < count($productos); $i++) {
-                        $codigo = $productos[$i][0];
-                        $precio = $productos[$i][1];
-                        $nombre = $productos[$i][2];
-                        $descripcion = $productos[$i][3];
-                        $imagen = $productos[$i][6];
-                        PRINT <<<HERE
+                            $codigo = $productos[$i][0];
+                            $precio = $productos[$i][1];
+                            $nombre = $productos[$i][2];
+                            $descripcion = $productos[$i][3];
+                            $imagen = $productos[$i][6];
+                            PRINT <<<HERE
                         <div class="product">
                             <div class="product-image">
                                 <img src="imagenes/$imagen">
@@ -102,7 +95,7 @@ $id_user = $_GET['id'];
                             </div>
                             <div class="product-price">$precio</div>
                             <div class="product-quantity">
-                                <input type="number" value="1" min="1">
+                                <input type="number" value="1" min="1" id="c$codigo" onchange="actualizar($codigo);">
                             </div>
                             <div class="product-removal">
                                 <button class="remove-product btn btn-danger" onclick="borrar($codigo)">Eliminar</button>
@@ -111,7 +104,6 @@ $id_user = $_GET['id'];
                         </div>
                         
 HERE;
-                        
                         }
                         ?>
 
@@ -133,35 +125,65 @@ HERE;
                                 <div class="totals-value" id="cart-total">0</div>
                             </div>
                         </div>
-                        <button class="checkout btn btn-success">Comprar</button>
+                        <form action="comprar.php" method="post">
+                            <input type="hidden" name="usuario" value="<?php echo $id_user; ?>">
+                            <input type="submit" class="checkout btn btn-success" value="Comprar">
+                        </form>
+                        
                     </div>
                 </div>     
             </div>
         </div>
         <script src="js/carrito.js" type="text/javascript"></script>
         <script>
-            $(document).ready(function (){
-               recalculateCart(); 
+            $(document).ready(function () {
+                recalculateCart();
             });
-            
-            function borrar(idProducto){
+
+            function borrar(idProducto) {
                 var usuario = <?php echo $id_user; ?>;
                 var codProducto = idProducto;
                 console.log("usuario " + usuario + " produc" + codProducto);
-                var parametro ={
-                    "usuario" : usuario,
-                    "idProducto" : codProducto  
+                var parametro = {
+                    "usuario": usuario,
+                    "idProducto": codProducto
                 };
-                
+
                 $.ajax({
                     data: parametro,
                     url: "borrarVenta.php",
                     method: "POST",
-                    success: function (response){
+                    success: function (response) {
                         console.log("Producto eliminado");
                     }
                 });
-            }            
+            }
+            var cantidad;
+            
+            //NO FUNCIONA
+            function actualizar(producActualiza) {
+                var usuario = <?php echo $id_user; ?>;
+                cantidad=$("#c"+producActualiza).val();
+                cantidad = parseInt(cantidad);
+                console.log(cantidad + " / " + producActualiza);
+              var parametro = {
+                    "usuario": usuario,
+                    "producActualiza": producActualiza,
+                    "cantidad": cantidad
+                };
+                console.log(parametro);
+
+                $.ajax({
+                    data: parametro,
+                    url: "actualiza.php",
+                    method: "POST",
+                    success: function (response) {
+                        console.log("Producto actualizado");
+                    }
+                });
+            }
+           
+
         </script>
     </body>
 </html>
